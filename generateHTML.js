@@ -170,5 +170,28 @@ const colors = {
               zoom: .75; 
             } 
            }
-        </style>`
+        </style>
+        <body>
+           <nav>
+              <img src="${data.avatar_url}">
+              <h1>Hi!</h1>
+              <h1>My name is + ${data.name} + !</h1>
+              <div class="row">
+                  <div class="col-sm-4"><a href="${data.location}">${data.location}</a></div>
+                  <div class="col-sm-4"><a href="${data.html_url}">GitHub</a></div>
+                  <div class="col-sm-4"><a href="${data.blog}">Blog</a></div>
+              </div>
+           </nav>
+           <h2>I build things and teach people to code.</h2>
+           <container>
+              <div class="row">
+                <div class="col-sm-6 card">Public Repositories<p>${data.public_repos}</p></div>
+                <div class="col-sm-6 card">Followers<p>${data.follower}</p></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 card">GitHub Stars<p>${data.following}</p></div>
+                <div class="col-sm-6 card">Following<p>${data.following}</p></div>
+              </div>
+           </container>
+        </body>`
           }
