@@ -2,14 +2,21 @@ const fs = require("fs");
 const axios = require("axios");
 const inquirer = require("inquirer");
 const generateHTML = require("./generateHTML");
-
-  inquirer
-    .prompt({
+const convertFactory = require('electron-html-to');
+let conversion = convertFactory({
+  converterPath: convertFactory.converters.PDF
+});
+let totalStars = 0;
+getUserInfo();
+  async function getUserInfo(){
+    try{
+    const {username,color} = await inquirer.prompt([
+    {
       message: "Enter your GitHub username",
       name: "username"
     },
     {
-      type: "checkbox",
+      type: "list",
       message: "Pick your favorite color!",
       name: "color",
       choices: [
@@ -17,56 +24,41 @@ const generateHTML = require("./generateHTML");
         "blue", 
         "red", 
         "pink"
-      ]
-    })
-    .then(function(data) {
-      let queryUrl = `https://api.github.com/users/${data.username}`;
+      ]}
+    ])
+     
+    res = await axios.get(
+      `https://api.github.com/users/${username}/repos`
+    );
+    let repos = res.data;
+    for(const repo of repos){
+      totalStars += repo.watchers_count; 
+    }
+    //console.log(repos);
 
-  });
-axios
-    .get(queryUrl)
-    .then(function(res){
-      //console.log(res.data[0]);
-      let response = res.data;
-      const masterObject = Object.assign({"avatar_url":  response.avatar_url}, 
-                                         {"name": response.location}, 
-                                         {"html_url": response.blog},
-                                         {"bio": response.public_repos}, 
-                                         {"followers": response.following},
-                                          ...data);
-      console.log(masterObject);
-       //generateHTML(data)
-  })
- 
+    const { data } = await axios.get(
+      `https://api.github.com/users/${username}`
+    );
+
+    data["color"] = color;
+    data["totalStars"] = totalStars;
+      
+    const html = generateHTML(data);
+    console.log(data);
+
+    conversion({ html: html }, function(err, result) {
+      if (err) {
+        return console.error(err);
+      }
+     
+      result.stream.pipe(fs.createWriteStream('./ETRezaei.pdf'));
+      conversion.kill(); 
+    });
 
 
+    } catch (err){
+      console.log(err)
+    }
+  }
 
-// const questions = [
   
-// ];
-
-// function writeToFile(fileName, data) {
- 
-// }
-
-// function init() {}
-
-// init();
-
-// for(const names of res.data){
-      //   repoName.push(names.name);
-        
-        // fs
-        //   .appendFile("repos.txt", names.name + '\n', function(err) {
-
-        //     if (err) {
-        //       return console.log(err);
-        //     }
-          
-        //     console.log("Success!");
-          
-        //   });
-      // }
-      // console.log(repoName.join("\n"));
-  
-    

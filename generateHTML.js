@@ -34,6 +34,7 @@ const colors = {
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"/>
         <link href="https://fonts.googleapis.com/css?family=BioRhyme|Cabin&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <title>Document</title>
         <style>
             @page {
@@ -172,26 +173,33 @@ const colors = {
            }
         </style>
         <body>
-           <nav>
-              <img src="${data.avatar_url}">
+        <div class="wrapper">
+        <main>
+           <nav class = "photo-header">
+              <img src="${data.avatar_url}" class="photo-header img">
+
               <h1>Hi!</h1>
-              <h1>My name is + ${data.name} + !</h1>
+              <h1>My name is  ${data.name}  !</h1>
               <div class="row">
-                  <div class="col-sm-4"><a href="${data.location}">${data.location}</a></div>
-                  <div class="col-sm-4"><a href="${data.html_url}">GitHub</a></div>
-                  <div class="col-sm-4"><a href="${data.blog}">Blog</a></div>
+                  <div class="col-sm-4"><a href="${data.location}" class="nav-link">${data.location}</a></div>
+                  <div class="col-sm-4"><a href="${data.html_url}" class="nav-link">GitHub</a></div>
+                  <div class="col-sm-4"><a href="${data.blog}" class="nav-link">Blog</a></div>
               </div>
            </nav>
+           <container class = "container">
            <h2>I build things and teach people to code.</h2>
-           <container>
+           
               <div class="row">
-                <div class="col-sm-6 card">Public Repositories<p>${data.public_repos}</p></div>
-                <div class="col-sm-6 card">Followers<p>${data.follower}</p></div>
+                <div class="col-sm-6 col card">Public Repositories<p>${data.public_repos}</p></div>
+                <div class="col-sm-6 col card">Followers<p>${data.followers}</p></div>
               </div>
               <div class="row">
-                <div class="col-sm-6 card">GitHub Stars<p>${data.following}</p></div>
-                <div class="col-sm-6 card">Following<p>${data.following}</p></div>
+                <div class="col-sm-6 col card">GitHub Stars<p>${data.totalStars}</p></div>
+                <div class="col-sm-6 col  card">Following<p>${data.following}</p></div>
               </div>
            </container>
+         </main>  
+         </div>
         </body>`
           }
+          module.exports = generateHTML;
